@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { formatAMPM } from '../../helpers/functions';
 import { type Appointment } from '../../types';
 import { useAppointmentsByDate } from '../../hooks/useAppointmentsByDate';
-import { STATUS_TAG_TYPES, DEFAULT_STATUS_TAG_TYPE, getServiceColor } from '../utils/calendar-colors';
+import { STATUS_TAG_TYPES, DEFAULT_STATUS_TAG_TYPE, getServiceColor, formatHourLabel } from '../utils/calendar-colors';
 import styles from './day-appointments-modal.scss';
 
 const LOCALE_MAP: Record<string, string> = {
@@ -18,14 +18,16 @@ const LOCALE_MAP: Record<string, string> = {
 interface DayAppointmentsModalProps {
   isoDate: string;
   calKey: string;
+  /** When provided, the modal filters to this hour and shows it in the header. */
+  hour?: number;
   onClose: () => void;
   onDrillDown: (mode: 'daily', isoDate: string) => void;
 }
 
-const DayAppointmentsModal: React.FC<DayAppointmentsModalProps> = ({ isoDate, calKey, onClose, onDrillDown }) => {
+const DayAppointmentsModal: React.FC<DayAppointmentsModalProps> = ({ isoDate, calKey, hour, onClose, onDrillDown }) => {
   const { t } = useTranslation();
   const [statusFilter, setStatusFilter] = useState('All');
-  const { appointments, isLoading } = useAppointmentsByDate(isoDate);
+  const { appointments: allAppointments, isLoading } = useAppointmentsByDate(isoDate);
   const locale = LOCALE_MAP[calKey] ?? 'en-US';
 
   const onCloseRef = useRef(onClose);
@@ -39,15 +41,24 @@ const DayAppointmentsModal: React.FC<DayAppointmentsModalProps> = ({ isoDate, ca
     return () => document.removeEventListener('keydown', handler);
   }, []);
 
+  // ── Hour filter (applied first, before status grouping) ─────────────────
+  const appointments = useMemo(
+    () =>
+      hour != null ? allAppointments.filter((a) => new Date(a.startDateTime).getHours() === hour) : allAppointments,
+    [allAppointments, hour],
+  );
+
+  // ── Display date (with optional hour) ───────────────────────────────────
   const displayDate = useMemo(() => {
     const d = new Date(isoDate + 'T00:00:00');
-    return new Intl.DateTimeFormat(locale, {
+    const dateStr = new Intl.DateTimeFormat(locale, {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
       calendar: calKey,
     }).format(d);
-  }, [isoDate, locale, calKey]);
+    return hour != null ? `${dateStr} · ${formatHourLabel(hour)}` : dateStr;
+  }, [isoDate, locale, calKey, hour]);
 
   const statuses = useMemo(() => ['All', ...Array.from(new Set(appointments.map((a) => a.status)))], [appointments]);
 

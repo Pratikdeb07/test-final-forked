@@ -79,6 +79,9 @@
   min-height: 2.5rem;
   overflow: hidden;
   cursor: default;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .slotCellToday {
@@ -93,28 +96,21 @@
   }
 }
 
+// Remove right border from last column (8th child in the flat 8-column grid)
 .grid > :nth-child(8n) {
   border-right: none;
 }
 
-.chip {
-  display: flex;
-  align-items: center;
-  gap: layout.$spacing-02;
-  padding: 1px layout.$spacing-02;
-  margin-bottom: 1px;
-  border-left: 3px solid;
-  border-radius: 2px;
-  @include type.type-style('label-01');
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.slotBadge {
+  @include type.type-style('heading-compact-01');
+  color: colors.$blue-60;
+  font-weight: 600;
 }
 
-.chipName {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  flex: 1;
-  min-width: 0;
-  color: colors.$gray-100;
+.emptyWeek {
+  grid-column: 1 / -1;
+  padding: layout.$spacing-05;
+  text-align: center;
+  @include type.type-style('body-compact-01');
+  color: colors.$gray-50;
 }
