@@ -2,84 +2,28 @@
 @use '@carbon/layout';
 @use '@carbon/type';
 
-.backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(colors.$gray-100, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
-
-.modal {
-  background: colors.$white;
-  border-radius: 8px;
-  width: min(40rem, 95vw);
-  max-height: 85vh;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.header {
+.subtitleRow {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  padding: layout.$spacing-05 layout.$spacing-05 layout.$spacing-04;
-  border-bottom: 1px solid colors.$gray-20;
+  align-items: center;
+  margin-bottom: layout.$spacing-04;
 }
 
-.headerLabel {
+.subtitle {
   @include type.type-style('label-01');
   color: colors.$gray-60;
   margin: 0;
 }
 
-.headerTitle {
-  @include type.type-style('heading-03');
-  color: colors.$gray-100;
-  margin: layout.$spacing-01 0;
-}
-
-.headerSub {
-  @include type.type-style('label-01');
-  color: colors.$gray-50;
-  margin: 0;
-}
-
-.headerActions {
-  display: flex;
-  gap: layout.$spacing-02;
-}
-
 .filters {
-  display: flex;
-  gap: layout.$spacing-02;
-  padding: layout.$spacing-04 layout.$spacing-05;
-  flex-wrap: wrap;
-  border-bottom: 1px solid colors.$gray-10;
-}
-
-.filterChip {
-  cursor: pointer;
-}
-
-.filterChipActive {
-  font-weight: 600;
-}
-
-.body {
-  flex: 1;
-  overflow-y: auto;
-  padding: layout.$spacing-05;
+  margin-bottom: layout.$spacing-05;
 }
 
 .empty {
   @include type.type-style('body-compact-01');
   color: colors.$gray-50;
   text-align: center;
-  padding: layout.$spacing-08;
+  padding: layout.$spacing-08 0;
   margin: 0;
 }
 
