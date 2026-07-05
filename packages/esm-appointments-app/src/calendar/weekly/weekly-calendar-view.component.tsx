@@ -14,8 +14,8 @@ import {
   type Calendar,
 } from '@internationalized/date';
 import { useAppointmentsByDate } from '../../hooks/useAppointmentsByDate';
-import { type Appointment } from '../../types';
-import { TIME_BLOCKS, countInBlock } from '../utils/calendar-colors';
+import { TIME_BLOCKS } from '../utils/calendar-colors';
+import WeeklySlotCell from './weekly-slot-cell.component';
 import styles from './weekly-calendar-view.scss';
 
 const LOCALE_MAP: Record<string, string> = {
@@ -100,7 +100,9 @@ const WeeklyCalendarView: React.FC<WeeklyCalendarViewProps> = ({ calKey, calenda
     <div className={styles.container}>
       <div className={styles.grid}>
         {/* ── Column headers ─────────────────────────────────────────────── */}
-        <div className={styles.cornerCell} />
+        <div className={styles.cornerCell}>
+          <span className={styles.cornerLabel}>Time</span>
+        </div>
         {weekDays.map((wd) => {
           const isToday = wd.iso === todayISO;
           const [y, m, d] = wd.iso.split('-').map(Number);
@@ -120,28 +122,17 @@ const WeeklyCalendarView: React.FC<WeeklyCalendarViewProps> = ({ calKey, calenda
         {TIME_BLOCKS.map((block) => (
           <React.Fragment key={block.label}>
             <div className={styles.timeLabel}>{block.label}</div>
-            {weekDays.map((wd, dayIdx) => {
-              const count = countInBlock(dayData[dayIdx].appointments, block.startHour, block.endHour);
-              const hasAppts = count > 0;
-              const isToday = wd.iso === todayISO;
-              return (
-                <div
-                  key={wd.iso}
-                  role="button"
-                  tabIndex={hasAppts ? 0 : -1}
-                  aria-label={hasAppts ? `${count} appointments, ${block.label}` : undefined}
-                  onClick={() => hasAppts && onSelectDate(wd.iso, block.startHour, block.endHour)}
-                  onKeyDown={(e) => {
-                    if (hasAppts && (e.key === 'Enter' || e.key === ' ')) {
-                      e.preventDefault();
-                      onSelectDate(wd.iso, block.startHour, block.endHour);
-                    }
-                  }}
-                  className={`${styles.slotCell} ${isToday ? styles.slotCellToday : ''} ${hasAppts ? styles.slotCellHasAppts : ''}`}>
-                  {hasAppts && <span className={styles.slotBadge}>{count}</span>}
-                </div>
-              );
-            })}
+            {weekDays.map((wd, dayIdx) => (
+              <WeeklySlotCell
+                key={wd.iso}
+                appointments={dayData[dayIdx].appointments}
+                isoDate={wd.iso}
+                startHour={block.startHour}
+                endHour={block.endHour}
+                isToday={wd.iso === todayISO}
+                onSelectDate={onSelectDate}
+              />
+            ))}
           </React.Fragment>
         ))}
       </div>
