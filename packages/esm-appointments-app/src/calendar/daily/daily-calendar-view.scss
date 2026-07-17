@@ -2,61 +2,88 @@
 @use '@carbon/layout';
 @use '@carbon/type';
 
+// Outer bordered calendar box — matches the weekly/monthly grid border framing
 .container {
-  padding: layout.$spacing-05;
+  margin: layout.$spacing-05;
+  border: 1px solid colors.$gray-20;
+  background: colors.$white;
+  overflow-x: auto;
 }
 
+// Header row — styled like a weekly day-header cell
 .heading {
-  margin-bottom: layout.$spacing-06;
+  display: flex;
+  align-items: baseline;
+  gap: layout.$spacing-03;
+  padding: layout.$spacing-03 layout.$spacing-05;
+  border-bottom: 1px solid colors.$gray-20;
+  background: colors.$gray-10;
 }
 
 .title {
-  @include type.type-style('heading-04');
+  @include type.type-style('heading-compact-02');
   color: colors.$gray-100;
-  margin: 0 0 layout.$spacing-02;
-}
-
-.subtitle {
-  @include type.type-style('body-compact-01');
-  color: colors.$gray-60;
   margin: 0;
 }
 
+.subtitle {
+  @include type.type-style('label-01');
+  color: colors.$gray-50;
+  margin: 0;
+}
+
+// Each hour row is a bordered cell row, like weekly/monthly grid rows
 .hourRow {
   display: flex;
-  gap: layout.$spacing-04;
-  margin-bottom: layout.$spacing-02;
+  border-bottom: 1px solid colors.$gray-20;
+
+  &:last-child {
+    border-bottom: none;
+  }
 }
 
+// Time label column — matches the weekly .timeLabel style exactly
 .hourLabel {
-  @include type.type-style('heading-compact-01');
-  color: colors.$gray-50;
-  min-width: 3.5rem;
-  padding-top: layout.$spacing-03;
+  @include type.type-style('label-01');
+  color: colors.$gray-60;
+  font-size: 0.6875rem;
+  white-space: nowrap;
+  min-width: 6.5rem;
+  padding: layout.$spacing-02 layout.$spacing-03 0 layout.$spacing-03;
   text-align: right;
+  border-right: 1px solid colors.$gray-20;
+  background: colors.$white;
+  flex-shrink: 0;
 }
 
+// Appointment content area — fills the right side of each row
 .hourSlot {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: layout.$spacing-02;
+  padding: layout.$spacing-02 layout.$spacing-04;
+  min-height: 3rem;
+  background: colors.$white;
 }
 
+// Individual appointment card — keeps the colored left-border accent
 .card {
   display: flex;
   align-items: center;
   gap: layout.$spacing-04;
-  padding: layout.$spacing-03 layout.$spacing-04;
+  padding: layout.$spacing-04 layout.$spacing-04;
+  margin: layout.$spacing-03 0;
   border-left: 3px solid;
-  border-radius: 0 4px 4px 0;
+  border-radius: 0 2px 2px 0;
   background: colors.$gray-10;
 }
 
 .cardTime {
-  @include type.type-style('heading-compact-01');
-  color: colors.$gray-70;
+  @include type.type-style('label-01');
+  color: colors.$gray-60;
   min-width: 3.5rem;
+  flex-shrink: 0;
 }
 
 .cardDetails {
@@ -65,10 +92,11 @@
 }
 
 .cardName {
-  @include type.type-style('body-compact-02');
+  @include type.type-style('body-compact-01');
   color: colors.$gray-100;
 }
 
 .cardService {
   @include type.type-style('label-01');
+  color: colors.$gray-50;
 }
