@@ -20,29 +20,20 @@
 }
 
 .backButton {
-  display: flex;
-  flex-direction: row-reverse;
-  align-items: center;
-
   svg {
+    order: 1;
     margin-right: layout.$spacing-02;
     margin-left: 0 !important;
+  }
+  span {
+    order: 2;
   }
 }
 
 .navGroup {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  display: flex;
   align-items: center;
-  gap: layout.$spacing-03;
-
-  > button:first-of-type {
-    justify-self: end;
-  }
-
-  > button:last-of-type {
-    justify-self: start;
-  }
+  gap: layout.$spacing-02;
 }
 
 .titleLabel {
@@ -59,8 +50,6 @@
   flex-wrap: wrap;
 }
 
-.viewSwitcher {
-  :global(.cds--content-switcher-btn) {
-    min-width: 5.5rem;
-  }
+.calendarSelect {
+  min-width: 11rem;
 }
