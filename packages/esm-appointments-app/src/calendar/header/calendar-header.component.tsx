@@ -1,11 +1,10 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import dayjs, { type Dayjs } from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { Button, ContentSwitcher, Switch } from '@carbon/react';
-import { ArrowLeft, ChevronLeft, ChevronRight } from '@carbon/react/icons';
-import { navigate, getLocale } from '@openmrs/esm-framework';
+import { ChevronLeft, ChevronRight } from '@carbon/react/icons';
+import { getLocale } from '@openmrs/esm-framework';
 import { parseDate, startOfWeek } from '@internationalized/date';
-import { spaHomePage } from '../../constants';
 import styles from './calendar-header.scss';
 
 export type CalendarViewMode = 'monthly' | 'weekly' | 'daily';
@@ -49,10 +48,6 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
   const calKey = deriveCalKey();
   const locale = LOCALE_MAP[calKey] ?? 'en-US';
 
-  const handleBack = useCallback(() => {
-    navigate({ to: `${spaHomePage}/appointments/${calendarSelectedDate.format('YYYY-MM-DD')}` });
-  }, [calendarSelectedDate]);
-
   const titleLabel = useMemo(() => {
     const isoDate = calendarSelectedDate.format('YYYY-MM-DD');
     const gregDate = parseDate(isoDate);
@@ -78,9 +73,6 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
   return (
     <div className={styles.calendarHeaderContainer}>
       <div className={styles.leftGroup}>
-        <Button className={styles.backButton} kind="ghost" size="sm" renderIcon={ArrowLeft} onClick={handleBack}>
-          {t('back', 'Back')}
-        </Button>
         <div className={styles.navGroup}>
           <Button
             hasIconOnly

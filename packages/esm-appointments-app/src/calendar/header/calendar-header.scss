@@ -19,21 +19,20 @@
   gap: layout.$spacing-03;
 }
 
-.backButton {
-  svg {
-    order: 1;
-    margin-right: layout.$spacing-02;
-    margin-left: 0 !important;
-  }
-  span {
-    order: 2;
-  }
-}
-
 .navGroup {
   display: flex;
   align-items: center;
   gap: layout.$spacing-02;
+
+  // Gray border box around each chevron button
+  :global(.cds--btn--ghost.cds--btn--icon-only) {
+    border: 1px solid colors.$gray-30;
+    border-radius: 4px;
+
+    &:hover {
+      border-color: colors.$gray-50;
+    }
+  }
 }
 
 .titleLabel {
@@ -48,6 +47,41 @@
   align-items: center;
   gap: layout.$spacing-04;
   flex-wrap: wrap;
+
+  // CSS variable override — Carbon reads these for selected bg/text/focus
+  :global(.cds--content-switcher) {
+    --cds-layer-selected-inverse: #{colors.$teal-60};
+    --cds-text-inverse: #{colors.$white};
+    --cds-border-interactive: #{colors.$teal-60};
+    --cds-focus: #{colors.$teal-50};
+    // --cds-border-subtle-00 is the variable Carbon v11 uses for the container border
+    --cds-border-subtle-00: #{colors.$teal-60};
+    border-color: colors.$teal-60 !important;
+  }
+
+  // Inactive buttons — teal text + teal border, no truncation
+  :global(.cds--content-switcher-btn) {
+    white-space: nowrap;
+    min-width: fit-content;
+    color: colors.$teal-60;
+    border-color: colors.$teal-60;
+
+    // Override the blue focus ring flash with teal
+    &:focus {
+      box-shadow: inset 0 0 0 2px colors.$teal-50 !important;
+      outline: none !important;
+    }
+  }
+
+  // Active / selected button — solid teal background, white text
+  :global(.cds--content-switcher-btn.cds--content-switcher--selected),
+  :global(.cds--content-switcher-btn.cds--content-switcher--selected:hover),
+  :global(.cds--content-switcher-btn.cds--content-switcher--selected:focus) {
+    background-color: colors.$teal-60 !important;
+    border-color: colors.$teal-60 !important;
+    color: colors.$white !important;
+    box-shadow: none !important;
+  }
 }
 
 .calendarSelect {
