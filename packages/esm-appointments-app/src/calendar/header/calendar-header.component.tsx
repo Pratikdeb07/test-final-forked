@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import dayjs, { type Dayjs } from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { Button, ContentSwitcher, Switch } from '@carbon/react';
-import { ArrowLeft } from '@carbon/react/icons';
+import { ArrowLeft, ChevronLeft, ChevronRight } from '@carbon/react/icons';
 import { navigate, getLocale } from '@openmrs/esm-framework';
 import { parseDate, startOfWeek } from '@internationalized/date';
 import { spaHomePage } from '../../constants';
@@ -82,18 +82,27 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
           {t('back', 'Back')}
         </Button>
         <div className={styles.navGroup}>
-          <Button kind="tertiary" size="sm" onClick={onPrev}>
-            {t('prev', 'Prev')}
-          </Button>
+          <Button
+            hasIconOnly
+            kind="ghost"
+            size="sm"
+            renderIcon={ChevronLeft}
+            iconDescription={t('previous', 'Previous')}
+            onClick={onPrev}
+          />
           <span className={styles.titleLabel}>{titleLabel}</span>
-          <Button kind="tertiary" size="sm" onClick={onNext}>
-            {t('next', 'Next')}
-          </Button>
+          <Button
+            hasIconOnly
+            kind="ghost"
+            size="sm"
+            renderIcon={ChevronRight}
+            iconDescription={t('next', 'Next')}
+            onClick={onNext}
+          />
         </div>
       </div>
       <div className={styles.rightGroup}>
         <ContentSwitcher
-          className={styles.viewSwitcher}
           selectedIndex={viewModeIndex}
           size="sm"
           onChange={({ index }) => onViewModeChange(VIEW_MODES[index as number])}>
