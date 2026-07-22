@@ -14,11 +14,11 @@
 
 .rightJustifiedItems {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
-  margin: 0 layout.$spacing-05;
-  gap: layout.$spacing-03;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  margin: 0 0.5rem 0 layout.$spacing-05;
+  gap: layout.$spacing-01;
 
   // Symmetrical button: override Carbon's absolutely-positioned icon
   :global(.cds--btn--primary) {
